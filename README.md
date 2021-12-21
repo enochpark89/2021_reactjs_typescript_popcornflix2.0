@@ -1,46 +1,91 @@
-# Getting Started with Create React App
+# Netflix Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Development
 
-## Available Scripts
+# 1. Create Header
 
-In the project directory, you can run:
+# 2. Create Animation
 
-### `npm start`
+- Put your mouse on top of the netflix > animation starts over and over. 
+- Use *framer-motion* library to accomplish animation easily.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```js
+const logoVariants = {
+  normal: {
+    fillOpacity: 1,
+  },
+  active: {
+    fillOpacity: [0, 1, 0],
+    // create a repeat
+    transition: {
+      repeat: Infinity,
+    },
+  },
+};
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+function Header() {
+  const homeMatch = useRouteMatch("/");
+  const tvMatch = useRouteMatch("/tv");
+    return (
+        <Logo
+          variants={logoVariants}
+          whileHover="active"
+          initial="normal"
+          xmlns="http://www.w3.org/2000/svg"
+          width="1024"
+          height="276.742"
+          viewBox="0 0 1024 276.742"
+        >
+    );
+}
 
-### `npm test`
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- useRouteMatch will tell you whether you are there or not.
+- console.log them and see how it shows. 
+- It returns the Object that tells you which path you are in and which url you have.
 
-### `npm run build`
+```js
+{path: '/', url: '/', isExact: false}
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- you can use this RouteMatch to check whether the path matches the url you want to match. If true, you can render a dot next to the active 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Home Screen
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- We are going to have many movie data presented in slider. 
+- We use TMDB API to grab information. 
+- As netflix, we show the first Movie in the screen as Netflix and present all the other ones in sliders. 
+- We can use React Query to quety the movei.
 
-### `npm run eject`
+Steps:
+1. Create query client from the index.tsx
+```ts
+import { QueryClient, QueryClientProvider } from "react-query";
+const client = new QueryClient();
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+ReactDOM.render(
+  <React.StrictMode>
+    <RecoilRoot>
+      <QueryClientProvider client={client}>
+        <ThemeProvider theme={theme}>
+          <GlobalStyle />
+          <App />
+        </ThemeProvider>
+      </QueryClientProvider>
+    </RecoilRoot>
+  </React.StrictMode>,
+  document.getElementById("root")
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+);
+```
+2. Work with API.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- get the address > paste in the browser to see what items you are getting
+- 
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+3. Use React-Query to fetch the data
+4. Check whether you queried successfully or not.
 
-## Learn More
+*You can set the background image with the backdrop image that the TMDB API*
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
